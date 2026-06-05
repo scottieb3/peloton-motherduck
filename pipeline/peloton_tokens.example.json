@@ -1,0 +1,7 @@
+{
+  "access_token": "REPLACE_WITH_ACCESS_TOKEN",
+  "refresh_token": "REPLACE_WITH_REFRESH_TOKEN",
+  "token_type": "Bearer",
+  "scope": "openid profile offline_access",
+  "expires_at": 0
+}

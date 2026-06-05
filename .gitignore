@@ -1,0 +1,17 @@
+# Secrets & credentials
+.env
+**/.env
+peloton_tokens.json
+**/peloton_tokens.json
+.mcp.json
+**/.mcp.json
+
+# Python
+.venv/
+venv/
+__pycache__/
+**/__pycache__/
+*.pyc
+
+# OS
+.DS_Store

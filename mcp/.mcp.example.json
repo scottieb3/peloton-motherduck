@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "motherduck": {
+      "command": "uvx",
+      "args": [
+        "mcp-server-motherduck",
+        "--db-path",
+        "md:${MOTHERDUCK_DATABASE}"
+      ],
+      "env": {
+        "MOTHERDUCK_TOKEN": "${MOTHERDUCK_TOKEN}"
+      }
+    }
+  }
+}
