@@ -252,6 +252,22 @@ def upsert_workouts_raw(con, df: pd.DataFrame):
     con.execute("DROP TABLE stage_raw;")
     logger.info("Upsert complete.")
 
+def apply_transform_views(con):
+    """Apply the SQL transform layer (flattened views over workouts_raw).
+
+    These are plain CREATE OR REPLACE VIEWs, so this is cheap and idempotent:
+    it ensures the views exist/are current without materializing any data.
+    """
+    sql_path = Path(__file__).resolve().parent / "sql" / "transform.sql"
+    if not sql_path.exists():
+        logger.warning(f"Transform SQL not found at {sql_path}; skipping view setup.")
+        return
+
+    logger.info("Applying transform views...")
+    script = sql_path.read_text()
+    con.execute(script)
+    logger.info("Transform views applied.")
+
 def run_pipeline(headers: dict):
     """Main pipeline execution logic."""
     
@@ -290,6 +306,7 @@ def run_pipeline(headers: dict):
         
         if not workouts:
             logger.info("No new workouts found.")
+            apply_transform_views(con)
             return
 
         # 5. Transform
@@ -301,6 +318,9 @@ def run_pipeline(headers: dict):
         # 6. Load
         upsert_workouts_raw(con, df)
         logger.info(f"Successfully loaded {len(df)} records.")
+
+        # 7. Ensure transform views are current
+        apply_transform_views(con)
         
     except Exception as e:
         logger.error(f"Pipeline execution failed: {e}")

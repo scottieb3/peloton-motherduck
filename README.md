@@ -7,8 +7,8 @@ This monorepo has two parts:
 
 | Folder | What it does |
 | --- | --- |
-| [`pipeline/`](pipeline) | Fetches Peloton workouts (with auto token refresh) and upserts them into a MotherDuck database. Runs locally or daily via GitHub Actions. |
-| [`mcp/`](mcp) | Points the MotherDuck MCP server at that database so an AI assistant can query your data. *(Setup in progress.)* |
+| [`pipeline/`](pipeline) | Fetches Peloton workouts (with auto token refresh), upserts them into a MotherDuck database, and builds flattened query views. Runs locally or daily via GitHub Actions. |
+| [`mcp/`](mcp) | Points the MotherDuck MCP server at that database so Claude Desktop can answer natural-language questions about your workouts. |
 
 See [`docs/architecture.md`](docs/architecture.md) for how the pieces fit together.
 

@@ -5,11 +5,10 @@
       "args": [
         "mcp-server-motherduck",
         "--db-path",
-        "md:${MOTHERDUCK_DATABASE}"
-      ],
-      "env": {
-        "MOTHERDUCK_TOKEN": "${MOTHERDUCK_TOKEN}"
-      }
+        "md:peloton_data",
+        "--motherduck-token",
+        "YOUR_MOTHERDUCK_TOKEN_HERE"
+      ]
     }
   }
 }

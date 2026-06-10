@@ -66,3 +66,16 @@ Workouts are upserted into `peloton.workouts_raw`:
 | `start_time` | TIMESTAMP | Workout start. |
 | `payload` | JSON | Full enriched workout payload. |
 | `fetched_at` | TIMESTAMP | When the row was last synced. |
+
+### Transform views
+
+After each sync, the pipeline applies `sql/transform.sql` (idempotent
+`CREATE OR REPLACE VIEW`) to expose query-friendly views over the raw JSON:
+
+| View | Description |
+| --- | --- |
+| `peloton.workouts_v` | One flattened row per workout (instructor, discipline, title, output in joules, etc.). |
+| `peloton.bookmarked_options` | Distinct classes you've repeated and kept bookmarked, with take counts and kJ stats. |
+
+These are plain views, so they always reflect the latest data — no refresh step
+needed. They're what the [MCP setup](../mcp) queries.
