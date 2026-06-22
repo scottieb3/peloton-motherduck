@@ -31,6 +31,10 @@ TOKEN_ENDPOINT = f"{AUTH0_BASE}/oauth/token"
 API_BASE = "https://api.onepeloton.com"
 TOKENS_FILE = os.environ.get("PELOTON_TOKENS_FILE", "peloton_tokens.json")
 
+# Public Peloton web client ID (visible in the web app; not a secret). Used as a
+# default so new users don't have to hunt for it.
+DEFAULT_CLIENT_ID = "WVoJxVDdPoFx4RNewvvg6ch2mZ7bwnsM"
+
 def load_tokens(file_path: Path) -> dict:
     """Load tokens from the JSON file."""
     if not file_path.exists():
@@ -61,10 +65,7 @@ def save_tokens(file_path: Path, tokens: dict) -> None:
 
 def refresh_tokens(refresh_token: str) -> dict:
     """Perform the token refresh exchange."""
-    client_id = os.environ.get("PELOTON_CLIENT_ID", "")
-    if not client_id:
-        logger.error("PELOTON_CLIENT_ID is not set. Set it in your environment or .env file.")
-        raise RuntimeError("Missing PELOTON_CLIENT_ID")
+    client_id = os.environ.get("PELOTON_CLIENT_ID") or DEFAULT_CLIENT_ID
 
     payload = {
         "grant_type": "refresh_token",
