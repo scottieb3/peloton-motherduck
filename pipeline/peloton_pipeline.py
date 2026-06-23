@@ -289,7 +289,12 @@ def run_pipeline(headers: dict):
     con = None
     try:
         logger.info(f"Connecting to MotherDuck ({MD_DB})...")
-        con = duckdb.connect(f"md:{MD_DB}")
+        # Connect to the MotherDuck account first, then ensure the destination
+        # database exists. MotherDuck does not auto-create a database on attach,
+        # so a fresh user would otherwise hit "no database/share named ...".
+        con = duckdb.connect("md:")
+        con.execute(f'CREATE DATABASE IF NOT EXISTS "{MD_DB}"')
+        con.execute(f'USE "{MD_DB}"')
         
         cutoff_timestamp = get_latest_workout_timestamp(con)
         logger.info(f"Fetching data newer than timestamp: {cutoff_timestamp}")
