@@ -69,6 +69,7 @@ Add the MotherDuck server (see [`claude_desktop_config.example.json`](./claude_d
       "command": "uvx",
       "args": [
         "mcp-server-motherduck",
+        "--read-write",
         "--db-path", "md:peloton_data",
         "--motherduck-token", "YOUR_MOTHERDUCK_TOKEN_HERE"
       ]
@@ -77,9 +78,13 @@ Add the MotherDuck server (see [`claude_desktop_config.example.json`](./claude_d
 }
 ```
 
-- Replace `YOUR_MOTHERDUCK_TOKEN_HERE` with your MotherDuck token (Settings -> Access Tokens at [app.motherduck.com](https://app.motherduck.com)).
+- Replace `YOUR_MOTHERDUCK_TOKEN_HERE` with your MotherDuck token (Settings -> Access Tokens at [app.motherduck.com](https://app.motherduck.com)). The read/write token from your pipeline `.env` works fine.
 - Change `md:peloton_data` if you used a different `MOTHERDUCK_DATABASE` in the pipeline.
 - If you already have other MCP servers, add the `"motherduck"` block inside the existing `"mcpServers"` object — don't replace it.
+
+> **Why `--read-write`?** `mcp-server-motherduck` defaults to **read-only mode**, but read-only requires a MotherDuck **read-scaling token**, which is only available on **paid (Business) plans**. On the **free tier**, pass `--read-write` (as shown) so the server matches your standard read/write token. Without it, connections fail with a **permissions error** after the access prompts.
+>
+> **On a paid plan?** For maximum safety you can drop `--read-write`, create a **Read scaling** token (Settings -> Access Tokens -> Create token -> Read scaling), and use that instead — then Claude can query but never modify your data.
 
 > **Alternative — Remote MCP (no `uvx`):** Claude Desktop also supports MotherDuck's hosted MCP endpoint via **Settings** -> **Connectors** (OAuth). Simpler, but gives less control over which database is targeted.
 
@@ -135,6 +140,9 @@ See [`peloton_context.md`](./peloton_context.md) for the full schema. In short:
 - Fully quit Claude Desktop (Cmd+Q), then relaunch. Reloading the window isn't enough.
 - Verify `uvx` is on your PATH: `uvx --version`.
 - Confirm your MotherDuck token is valid at [app.motherduck.com](https://app.motherduck.com).
+
+**Permissions error after the access prompts**
+- The default server runs **read-only**, which needs a **read-scaling** token (paid plans only). On the free tier, add `--read-write` to the server args so the mode matches your standard read/write token.
 
 **`uvx` command not found**
 - Re-install `uv`: `curl -LsSf https://astral.sh/uv/install.sh | sh`, then open a new terminal.

@@ -4,6 +4,7 @@
       "command": "uvx",
       "args": [
         "mcp-server-motherduck",
+        "--read-write",
         "--db-path",
         "md:peloton_data",
         "--motherduck-token",
