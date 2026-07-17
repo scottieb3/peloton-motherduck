@@ -3,9 +3,11 @@
 Sync your Peloton workout history into [MotherDuck](https://motherduck.com), then
 query it conversationally through the Model Context Protocol (MCP).
 
-[![Watch the demo](docs/images/demo.gif)](https://github.com/user-attachments/assets/3f195047-f3cc-4037-9ee4-56588c8eb134)
+<a href="https://github.com/user-attachments/assets/3f195047-f3cc-4037-9ee4-56588c8eb134">
+  <img src="docs/images/demo.gif" alt="Watch the demo" width="100%">
+</a>
 
-> ▶️ **[Watch the full demo video](https://github.com/user-attachments/assets/3f195047-f3cc-4037-9ee4-56588c8eb134)** (click the preview above).
+<em>▶️ <a href="https://github.com/user-attachments/assets/3f195047-f3cc-4037-9ee4-56588c8eb134">Watch the full 2-minute walkthrough</a> (or click the preview above).</em>
 
 ## How it works
 
